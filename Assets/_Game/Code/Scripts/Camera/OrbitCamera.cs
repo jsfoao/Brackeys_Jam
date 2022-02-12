@@ -63,9 +63,6 @@ public class OrbitCamera : MonoBehaviour
     private void LateUpdate()
     {
         if (target == null) { return; }
-        Debug.DrawLine(target.position, target.transform.position, Color.green);
-        Debug.DrawRay(target.position, target.forward, Color.blue);
-
         ExecuteOrbit();
     }
 
