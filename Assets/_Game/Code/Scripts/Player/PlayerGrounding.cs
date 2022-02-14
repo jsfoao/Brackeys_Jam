@@ -2,45 +2,56 @@ using UnityEngine;
 
 public class PlayerGrounding : MonoBehaviour
 {
-    [SerializeField] private float gravity;
-    [SerializeField] private float offset;
+    private Rigidbody _rigidbody;
+    
     [SerializeField] private LayerMask groundMask;
-    [SerializeField] private float groundDistance;
-    [SerializeField] private bool isGrounded;
-    private float _rayDistance;
-    private Vector3 _origin;
+    [Header("RIDE")]
+    [SerializeField] private float rideHeight;
+    [SerializeField] private float rideSpringStrength;
+    [SerializeField] private float rideSpringDamper;
+    
+    private float springForce;
+    public bool isGrounded;
 
-    private void Update()
+    private RaycastHit _hit;
+    private void FixedUpdate()
     {
-        RaycastHit hit;
-        _origin = new Vector3(transform.position.x, transform.position.y - offset, transform.position.z);
-        if (Physics.Raycast(_origin, Vector3.down, out hit, _rayDistance, groundMask))
+        if (Physics.Raycast(transform.position, Vector3.down, out var hit, rideHeight, groundMask))
         {
-            float distance = (transform.position - hit.point).magnitude;
-            isGrounded = distance <= offset + groundDistance;
-            Debug.Log(distance);
-        }
-
-        if (isGrounded)
-        {
-            transform.position = new Vector3(transform.position.x, hit.point.y + groundDistance + offset, transform.position.z);
+            isGrounded = true;
+            Vector3 vel = _rigidbody.velocity;
+            Vector3 rayDir = -transform.up;
+    
+            float rayDirVel = Vector3.Dot(rayDir, vel);
+            
+            float x = hit.distance - rideHeight;
+            springForce = (x * rideSpringStrength) - (rayDirVel * rideSpringDamper);
+            
+            _rigidbody.AddForce(rayDir * springForce, ForceMode.Acceleration);
         }
         else
         {
-            transform.position += new Vector3(0f, -1f, 0f) * gravity * Time.deltaTime;
+            isGrounded = false;
         }
     }
 
-    private void OnValidate()
+    private void Start()
     {
-        _rayDistance = offset + groundDistance + 1;
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     private void OnDrawGizmos()
     {
-        _origin = new Vector3(transform.position.x, transform.position.y - offset, transform.position.z);
-
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.position - transform.up * (rideHeight + 1));
+        
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(_origin, transform.position + Vector3.down * (offset + groundDistance));
+        Gizmos.DrawLine(transform.position, transform.position - transform.up * rideHeight);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(_hit.point, _hit.point + _hit.normal);
+        
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(_hit.point, .1f);
     }
 }
