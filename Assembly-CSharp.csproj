@@ -58,8 +58,11 @@
      <Compile Include="Assets\_Game\Code\Scripts\Camera\OrbitCamera.cs" />
      <Compile Include="Assets\_Game\Code\Scripts\Player\CurveTest.cs" />
      <Compile Include="Assets\_Game\Code\Scripts\Camera\MouseCameraController.cs" />
-     <Compile Include="Assets\_Game\Code\Scripts\Vehicle\CarController.cs" />
      <Compile Include="Assets\_Game\Code\Scripts\Player\CustomGravity.cs" />
+     <Compile Include="Assets\_Game\Code\Scripts\Vehicle\CarController.cs" />
+     <Compile Include="Assets\polyperfect\Low Poly Animated People\- Materials\Simple Water\SimpleWater.cs" />
+     <None Include="Assets\polyperfect\Low Poly Animated People\- Materials\Simple Water\Water.shader" />
+     <None Include="Assets\polyperfect\Low Poly Animated People\- UI\TextShader.shader" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.26f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
@@ -701,6 +704,14 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Polyperfect.Common.csproj">
+      <Project>{6620b151-1e3c-1495-80ab-4b76c45d9a9c}</Project>
+      <Name>Polyperfect.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="Polyperfect.People.csproj">
+      <Project>{730983cc-8d01-91e9-06f7-72b61cf78df3}</Project>
+      <Name>Polyperfect.People</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
