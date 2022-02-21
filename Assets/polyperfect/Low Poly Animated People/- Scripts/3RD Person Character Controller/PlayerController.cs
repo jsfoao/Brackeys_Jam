@@ -21,6 +21,8 @@ namespace Polyperfect.People
         // Start is called before the first frame update
         void Start()
         {
+            Cursor.lockState = CursorLockMode.Locked;
+            
             rigidbody = GetComponent<Rigidbody>();
             animator = GetComponent<Animator>();
 
