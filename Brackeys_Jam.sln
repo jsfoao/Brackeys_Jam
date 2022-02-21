@@ -1,10 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Polyperfect.Common", "Polyperfect.Common.csproj", "{6620b151-1e3c-1495-80ab-4b76c45d9a9c}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Polyperfect.People", "Polyperfect.People.csproj", "{730983cc-8d01-91e9-06f7-72b61cf78df3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{1568ea93-131b-9b83-9f6b-8d2c10f4facd}"
 EndProject
 Global
@@ -13,14 +9,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6620b151-1e3c-1495-80ab-4b76c45d9a9c}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6620b151-1e3c-1495-80ab-4b76c45d9a9c}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6620b151-1e3c-1495-80ab-4b76c45d9a9c}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6620b151-1e3c-1495-80ab-4b76c45d9a9c}.Release|Any CPU.Build.0 = Release|Any CPU
-		{730983cc-8d01-91e9-06f7-72b61cf78df3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{730983cc-8d01-91e9-06f7-72b61cf78df3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{730983cc-8d01-91e9-06f7-72b61cf78df3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{730983cc-8d01-91e9-06f7-72b61cf78df3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1568ea93-131b-9b83-9f6b-8d2c10f4facd}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1568ea93-131b-9b83-9f6b-8d2c10f4facd}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1568ea93-131b-9b83-9f6b-8d2c10f4facd}.Release|Any CPU.ActiveCfg = Release|Any CPU
