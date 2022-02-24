@@ -1,10 +1,7 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 public class FPWallLocomotion : MonoBehaviour
 {
-    public UnityEvent OnWallRide;
-
     private FPLocomotion _fpLocomotion;
     private FPGravity _fpGravity;
     private FPLook _fpLook;
@@ -16,13 +13,17 @@ public class FPWallLocomotion : MonoBehaviour
         {
             _fpGravity.SetWallGravity();
             float orientationDotWall = Vector3.Dot(_fpLocomotion.rightOrientation, _fpGrounding.wallNormal);
-            if (orientationDotWall < 0)
+            if (orientationDotWall < -0.2f)
             {
                 _fpLook.tiltAngle = _fpLook.maxTiltAngle;
             }
-            else
+            else if (orientationDotWall > 0.2f)
             {
                 _fpLook.tiltAngle = -_fpLook.maxTiltAngle;
+            }
+            else
+            {
+                _fpLook.tiltAngle = 0f;
             }
         }
         else

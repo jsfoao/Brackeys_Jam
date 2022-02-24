@@ -1,10 +1,9 @@
 using System;
+using System.ComponentModel.Design;
 using UnityEngine;
 
 public class FPGrounding : MonoBehaviour
 {
-    #region Floater
-    private Rigidbody _rigidbody;
     
     [Header("Grounding")]
     [SerializeField] private LayerMask groundMask;
@@ -12,43 +11,47 @@ public class FPGrounding : MonoBehaviour
     [SerializeField] private float rideSpringStrength;
     [SerializeField] private float rideSpringDamper;
     [NonSerialized] public Vector3 groundNormal;
-    public bool isGrounded;
+    [NonSerialized] public bool isGrounded;
     private float springForce;
     private RaycastHit _groundHit;
 
     [Header("Walling")]
     [SerializeField] private LayerMask wallMask;
-    [SerializeField] private float rayLength;
+    [SerializeField] private float rayLengthRight;
+    [SerializeField] private float rayLengthFront;
     [NonSerialized] public Vector3 wallNormal;
-    public bool isWalled;
+    [NonSerialized] public bool isWalled;
     private RaycastHit _wallHitLeft;
     private RaycastHit _wallHitRight;
+    private RaycastHit _wallHitFront;
+    private RaycastHit _wallHitBack;
     public RaycastHit closestWallHit;
 
-
+    private Rigidbody _rigidbody;
     private FPLocomotion _fpLocomotion;
 
     private void WallCasting()
     {
-        if (Physics.Raycast(transform.position, -_fpLocomotion.rightOrientation, out _wallHitLeft, rayLength, wallMask))
+        int flag = 0;
+        if (Physics.Raycast(transform.position, -_fpLocomotion.rightOrientation, out _wallHitLeft, rayLengthRight, wallMask))
         {
             isWalled = true;
-            closestWallHit = _wallHitLeft;
-            wallNormal = closestWallHit.normal;
+            wallNormal = _wallHitLeft.normal;
         }
-        else if (Physics.Raycast(transform.position, _fpLocomotion.rightOrientation, out _wallHitRight, rayLength, wallMask))
+        else if (Physics.Raycast(transform.position, _fpLocomotion.rightOrientation, out _wallHitRight, rayLengthRight, wallMask))
         {
             isWalled = true;
-            closestWallHit = _wallHitRight;
-            wallNormal = closestWallHit.normal;
+            wallNormal = _wallHitRight.normal;
         }
-        else if (Physics.Raycast(transform.position, _fpLocomotion.forwardOrientation, out _wallHitRight, rayLength, wallMask))
-        {
-            
+        else if (Physics.Raycast(transform.position, -_fpLocomotion.forwardOrientation, out _wallHitBack, rayLengthFront, wallMask))
+        {          
+            isWalled = true;
+            wallNormal = _wallHitBack.normal;
         }
-        else if (Physics.Raycast(transform.position, _fpLocomotion.forwardOrientation, out _wallHitRight, rayLength, wallMask))
-        {
-            
+        else if (Physics.Raycast(transform.position, _fpLocomotion.forwardOrientation, out _wallHitFront, rayLengthFront, wallMask))
+        {          
+            isWalled = true;
+            wallNormal = _wallHitFront.normal;
         }
         else
         {
@@ -115,8 +118,10 @@ public class FPGrounding : MonoBehaviour
         _fpLocomotion = GetComponent<FPLocomotion>();
         #region Walling
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + (_fpLocomotion.rightOrientation * rayLength));
-        Gizmos.DrawLine(transform.position, transform.position + (-_fpLocomotion.rightOrientation * rayLength));
+        Gizmos.DrawLine(transform.position, transform.position + (_fpLocomotion.rightOrientation * rayLengthRight));
+        Gizmos.DrawLine(transform.position, transform.position + (-_fpLocomotion.rightOrientation * rayLengthRight));
+        Gizmos.DrawLine(transform.position, transform.position + (-_fpLocomotion.forwardOrientation * rayLengthFront));
+        Gizmos.DrawLine(transform.position, transform.position + (_fpLocomotion.forwardOrientation * rayLengthFront));
         if (isWalled)
         {
             Gizmos.color = Color.green;
@@ -126,5 +131,4 @@ public class FPGrounding : MonoBehaviour
         }
         #endregion
     }
-    #endregion
 }
