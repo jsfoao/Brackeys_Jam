@@ -66,14 +66,16 @@ Shader "Outlined/Uniform Edit"
 		CGPROGRAM
 		#pragma surface surf Lambert
 		 
-		struct Input {
+		struct Input
+		{
 			float2 uv_MainTex;
 		};
 		 
-		void surf (Input IN, inout SurfaceOutput o) {
+		void surf (Input IN, inout SurfaceOutput o)
+		{
 			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
 			o.Albedo = c.rgb;
-o.Emission=c.rbg;
+			o.Emission=c.rbg;
 			o.Alpha = c.a;
 		}
 		ENDCG
