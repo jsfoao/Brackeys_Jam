@@ -71,19 +71,21 @@ public class FPLocomotion : MonoBehaviour
         float orientationDotInput = Vector3.Dot(inputDirection, forwardOrientation);
 
         float speedMultiplier = 1;
-        if (orientationDotInput < -0.2f)
-        {
-            speedMultiplier = backSpeedMultiplier;
-        }
-        else if (orientationDotInput > 0.2f)
-        {
-            speedMultiplier = orientationDotInput;
-        }
-        else
-        {
-            speedMultiplier = sideSpeedMultiplier;
-        }
+        // TODO different speed depending on movement direction
+        // if (orientationDotInput < -0.2f)
+        // {
+        //     speedMultiplier = backSpeedMultiplier;
+        // }
+        // else if (orientationDotInput > 0.2f)
+        // {
+        //     speedMultiplier = orientationDotInput;
+        // }
+        // else
+        // {
+        //     speedMultiplier = sideSpeedMultiplier;
+        // }
 
+        inputDirection = Vector3.ProjectOnPlane(inputDirection, _fpGrounding.groundNormal);
         if (_fpGrounding.isGrounded)
         {
             float accel = inputDirection.magnitude <= 0 ? groundDeacceleration : groundAcceleration;
