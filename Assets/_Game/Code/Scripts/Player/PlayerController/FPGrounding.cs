@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.Design;
 using UnityEngine;
 
 public class FPGrounding : MonoBehaviour
@@ -7,6 +6,8 @@ public class FPGrounding : MonoBehaviour
     
     [Header("Grounding")]
     [SerializeField] private LayerMask groundMask;
+
+    [SerializeField] private float rideRadius;
     [SerializeField] private float rideHeight;
     [SerializeField] private float rideSpringStrength;
     [SerializeField] private float rideSpringDamper;
@@ -58,17 +59,17 @@ public class FPGrounding : MonoBehaviour
     }
     private void GroundCasting()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, out var hit, rideHeight, groundMask))
+        if (Physics.SphereCast(transform.position, rideRadius, Vector3.down, out _groundHit, rideHeight, groundMask))
         {
             isGrounded = true;
-            groundNormal = hit.normal;
+            groundNormal = _groundHit.normal;
 
             Vector3 vel = _rigidbody.velocity;
             Vector3 rayDir = -transform.up;
 
             float rayDirVel = Vector3.Dot(rayDir, vel);
             
-            float x = hit.distance - rideHeight;
+            float x = _groundHit.distance - rideHeight;
             springForce = (x * rideSpringStrength) - (rayDirVel * rideSpringDamper);
         }
         else
@@ -100,14 +101,23 @@ public class FPGrounding : MonoBehaviour
     private void OnDrawGizmos()
     {
         #region Grounding
+
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, rideRadius);
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position - transform.up * (rideHeight + 1));
+        Gizmos.DrawLine(transform.position, transform.position - transform.up * rideHeight);
         
         Gizmos.color = Color.green;
         Gizmos.DrawLine(transform.position, transform.position - transform.up * rideHeight);
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(_groundHit.point, _groundHit.point + _groundHit.normal);
+        if (isGrounded)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(_groundHit.point, .1f);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(_groundHit.point, _groundHit.point + _groundHit.normal);
+        }
+
         #endregion
 
         _fpLocomotion = GetComponent<FPLocomotion>();
