@@ -278,6 +278,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aa5c1463e55a6a48a70dc84143edb02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  range: 10
+  awareness: 100
+  awarenessDrain: 1
 --- !u!114 &2313226012134789639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,6 +391,7 @@ MonoBehaviour:
   _jumpForceWall: 250
   jumpTime: 0.15
   _wallJumpMultiplier: {x: 1, y: 1}
+  coyoteTimer: 0.2
 --- !u!114 &2313226012134789634
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,28 +1,22 @@
 using System;
 using System.Collections;
-using System.Threading;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class GlitchControl : MonoBehaviour
 {
+    [SerializeField] private bool active;
+    [SerializeField] Material hologramMaterial;
     [SerializeField, Range(0,1)] float glitchChance = 0.1f;
     [SerializeField, Range(0,1)] float flickerChance = 0.1f;
     [SerializeField] Range<float> glitchIntensity;
     [SerializeField] Range<float> glowIntensity;
     [SerializeField] private Range<float> blendIntensity;
     [SerializeField] private Range<float> timer;
-    
 
-    private Material hologramMaterial;
-    
-    void Awake()
-    {
-        hologramMaterial = GetComponent<Renderer>().material;
-    }
     IEnumerator Start()
     {
-        while (true)
+        while (active)
         {
             float glitchTest = Random.Range(0f, 1f);
             float flickerTest = Random.Range(0f, 1f);
