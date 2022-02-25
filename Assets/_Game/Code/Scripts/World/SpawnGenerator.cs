@@ -26,7 +26,7 @@ public class SpawnGenerator : MonoBehaviour
 
     void Start()
     {
-        mapForwardEdge = mapLength;
+        mapForwardEdge = mapLength-1;
         tileDistanceX = chunk.localScale.x;
         tileDistanceZ = chunk.localScale.z;
 
