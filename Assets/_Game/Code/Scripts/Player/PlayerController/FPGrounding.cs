@@ -11,7 +11,7 @@ public class FPGrounding : MonoBehaviour
     [SerializeField] private float rideSpringStrength;
     [SerializeField] private float rideSpringDamper;
     [NonSerialized] public Vector3 groundNormal;
-    [NonSerialized] public bool isGrounded;
+    public bool isGrounded;
     private float springForce;
     private RaycastHit _groundHit;
 
@@ -20,19 +20,17 @@ public class FPGrounding : MonoBehaviour
     [SerializeField] private float rayLengthRight;
     [SerializeField] private float rayLengthFront;
     [NonSerialized] public Vector3 wallNormal;
-    [NonSerialized] public bool isWalled;
+    public bool isWalled;
     private RaycastHit _wallHitLeft;
     private RaycastHit _wallHitRight;
     private RaycastHit _wallHitFront;
     private RaycastHit _wallHitBack;
-    public RaycastHit closestWallHit;
 
     private Rigidbody _rigidbody;
     private FPLocomotion _fpLocomotion;
 
     private void WallCasting()
     {
-        int flag = 0;
         if (Physics.Raycast(transform.position, -_fpLocomotion.rightOrientation, out _wallHitLeft, rayLengthRight, wallMask))
         {
             isWalled = true;
@@ -110,9 +108,6 @@ public class FPGrounding : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(_groundHit.point, _groundHit.point + _groundHit.normal);
-        
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(_groundHit.point, .1f);
         #endregion
 
         _fpLocomotion = GetComponent<FPLocomotion>();
@@ -122,13 +117,6 @@ public class FPGrounding : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + (-_fpLocomotion.rightOrientation * rayLengthRight));
         Gizmos.DrawLine(transform.position, transform.position + (-_fpLocomotion.forwardOrientation * rayLengthFront));
         Gizmos.DrawLine(transform.position, transform.position + (_fpLocomotion.forwardOrientation * rayLengthFront));
-        if (isWalled)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawSphere(closestWallHit.point, .1f);
-            Gizmos.color = Color.blue;
-            Gizmos.DrawRay(closestWallHit.point, wallNormal);
-        }
         #endregion
     }
 }

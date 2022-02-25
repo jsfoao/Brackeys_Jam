@@ -1,20 +1,18 @@
-using UnityEditor.ShaderGraph;
 using UnityEngine;
 
 public class FPJump : MonoBehaviour
 {
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _jumpForceWall;
-    [SerializeField] private Vector2 _wallJumpMultiplier;
+    [Tooltip("How long to hold jump")]
     [SerializeField] private float jumpTime;
+    [SerializeField] private Vector2 _wallJumpMultiplier;
 
     float jumpTimeCounter;
     bool isJumping;
-    bool jumpKeyHeld;
 
     private Rigidbody _rigidbody;
     private FPGrounding _fpGrounding;
-    private FPGravity _fpGravity;
 
     private bool _wallJump;
     private bool _groundJump;
@@ -28,7 +26,7 @@ public class FPJump : MonoBehaviour
                 _groundJump = true;
                 isJumping = true;
                 jumpTimeCounter = jumpTime;
-                _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Force);   
+                _rigidbody.velocity += Vector3.up * _jumpForce * Time.fixedDeltaTime;
             }
             else if (_fpGrounding.isWalled)
             {
@@ -40,7 +38,7 @@ public class FPJump : MonoBehaviour
                 {
                     direction.Normalize();
                 }
-                _rigidbody.AddForce(direction * _jumpForceWall, ForceMode.Force);   
+                _rigidbody.velocity += direction * _jumpForceWall * Time.fixedDeltaTime;
             }
         }
 
@@ -50,7 +48,7 @@ public class FPJump : MonoBehaviour
             {
                 if (jumpTimeCounter > 0)
                 {
-                    _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Force);
+                    _rigidbody.velocity += Vector3.up * _jumpForce * Time.deltaTime;
                 }
                 jumpTimeCounter -= Time.deltaTime;
             }
@@ -63,7 +61,7 @@ public class FPJump : MonoBehaviour
                     {
                         direction.Normalize();
                     }
-                    _rigidbody.AddForce(direction * _jumpForceWall, ForceMode.Force);   
+                    _rigidbody.velocity += direction * _jumpForceWall * Time.deltaTime;
                 }
                 jumpTimeCounter -= Time.deltaTime;
             }
@@ -89,7 +87,6 @@ public class FPJump : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _fpGrounding = GetComponent<FPGrounding>();
-        _fpGravity = GetComponent<FPGravity>();
     }
 
     private void OnValidate()

@@ -85,7 +85,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
   field of view: 90
   orthographic: 0
@@ -259,7 +259,7 @@ Rigidbody:
   m_GameObject: {fileID: 2313226012134789636}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 6
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -290,15 +290,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575800a8a1e15f2458175abd2abc341d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprintKey: 304
-  cameraOrientation: {fileID: 2313226011190955844}
-  walkSpeed: 7
-  sprintSpeed: 10
-  acceleration: 10
-  groundMultiplier: 10
-  airMultiplier: 0.4
-  groundDrag: 6
-  airDrag: 3
+  cameraTransform: {fileID: 2313226011190955844}
+  accelFactorGround:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.9591509
+      value: 20
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  groundSpeed: 2
+  groundAcceleration: 10
+  groundDeacceleration: 20
+  sideSpeedMultiplier: 0.6
+  backSpeedMultiplier: 0.5
+  accelFactorAir:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.9591509
+      value: 20
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  airSpeed: 1.5
+  airAcceleration: 10
+  airDeacceleration: 1
 --- !u!114 &2313226012134789632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,13 +363,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   rideHeight: 1.4
-  rideSpringStrength: 500
+  rideSpringStrength: 1000
   rideSpringDamper: 25
   isGrounded: 0
   wallMask:
     serializedVersion: 2
     m_Bits: 64
-  rayLength: 1.2
+  rayLengthRight: 1
+  rayLengthFront: 1
   isWalled: 0
 --- !u!114 &2313226012134789633
 MonoBehaviour:
@@ -335,10 +384,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3613062bdd3f8834da56fc5366a4d242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpForce: 80
-  _jumpForceWall: 60
-  _wallJumpMultiplier: {x: 1, y: 1}
+  _jumpForce: 350
+  _jumpForceWall: 250
   jumpTime: 0.15
+  _wallJumpMultiplier: {x: 1, y: 1}
 --- !u!114 &2313226012134789634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,8 +416,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff50fc691a7e7994a8035e15ae9ddf81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultGravity: -80
+  groundGravity: -120
   wallGravity: -20
+  airGravity: -110
   gravityForce: 0
 --- !u!114 &2313226012134789644
 MonoBehaviour:
@@ -382,6 +432,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77f5cbc80c9a295409d085345df7717f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnWallRide:
-    m_PersistentCalls:
-      m_Calls: []

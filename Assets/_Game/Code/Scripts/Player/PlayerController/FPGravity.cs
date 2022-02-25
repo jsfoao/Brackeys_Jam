@@ -3,20 +3,26 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class FPGravity : MonoBehaviour
 {
-    [SerializeField] private float defaultGravity;
+    [SerializeField] private float groundGravity;
     [SerializeField] private float wallGravity;
+    [SerializeField] private float airGravity;
     public float gravityForce;
 
     private Rigidbody _rigidbody;
 
     public void SetDefaultGravity()
     {
-        gravityForce = defaultGravity;
+        gravityForce = groundGravity;
     }
 
     public void SetWallGravity()
     {
         gravityForce = wallGravity;
+    }
+    
+    public void SetAirGravity()
+    {
+        gravityForce = airGravity;
     }
 
     public void SetGravity(float force)
@@ -32,6 +38,6 @@ public class FPGravity : MonoBehaviour
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        gravityForce = defaultGravity;
+        gravityForce = groundGravity;
     }
 }

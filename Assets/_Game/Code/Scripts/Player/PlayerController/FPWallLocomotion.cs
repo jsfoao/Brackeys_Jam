@@ -28,7 +28,6 @@ public class FPWallLocomotion : MonoBehaviour
         }
         else
         {
-            _fpGravity.SetDefaultGravity();
             _fpLook.tiltAngle = 0f;
         }
     }

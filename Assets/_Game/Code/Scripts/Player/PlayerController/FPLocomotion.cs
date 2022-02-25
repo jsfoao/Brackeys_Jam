@@ -1,122 +1,137 @@
 using System;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class FPLocomotion : MonoBehaviour
 {
-    [Header("Keybinds")]
-    [SerializeField] KeyCode sprintKey = KeyCode.LeftShift;
-    
-    [SerializeField] private Transform cameraOrientation;
-    [NonSerialized] public Vector3 forwardOrientation;
+    [SerializeField] private Transform cameraTransform;
     [NonSerialized] public Vector3 rightOrientation;
-
-    [Header("Movement")]
-
-    [SerializeField] float walkSpeed = 4f;
-    [SerializeField] float sprintSpeed = 6f;
-    [SerializeField] float acceleration = 10f;
-    [SerializeField] private float groundMultiplier = 10f;
-    [SerializeField] private float airMultiplier = 0.4f;
+    [NonSerialized] public Vector3 forwardOrientation;
     
-
-    [Header("Drag")]
-    [SerializeField] float groundDrag = 6f;
-    [SerializeField] float airDrag = 2f;
-
-    float horizontalMovement;
-    float verticalMovement;
+    [Header("Ground")]
+    [SerializeField] private AnimationCurve accelFactorGround;
+    [SerializeField] private float groundSpeed;
+    [SerializeField] private float groundAcceleration;
+    [SerializeField] private float groundDeacceleration;
+    [SerializeField, Range(0, 1)] private float sideSpeedMultiplier;
+    [SerializeField, Range(0, 1)] private float backSpeedMultiplier;
     
-    private float _moveSpeed = 6f;
-    Vector3 _moveDirection;
-    private Vector3 _inputDirection;
-
-
-    RaycastHit slopeHit;
-
-    private const string horizontalAxis = "Horizontal";
-    private const string verticalAxis = "Vertical";
     
+    [Header("Air")]
+    [SerializeField] private AnimationCurve accelFactorAir;
+    [SerializeField] private float airSpeed;
+    [SerializeField] private float airAcceleration;
+    [SerializeField] private float airDeacceleration;
+    
+    private Vector3 velocity;
+    private Vector3 inputDirection;
+
+    private Vector3 horizontalVelocity;
+    private Vector3 moveDirection;
+    private float velDotInput;
+
     private Rigidbody _rigidbody;
     private FPGrounding _fpGrounding;
+    private FPGravity _fpGravity;
 
-    void ControlSpeed()
-    {
-        if (Input.GetKey(sprintKey) && _fpGrounding.isGrounded)
-        {
-            _moveSpeed = Mathf.Lerp(_moveSpeed, sprintSpeed, acceleration * Time.deltaTime);
-        }
-        else
-        {
-            _moveSpeed = Mathf.Lerp(_moveSpeed, walkSpeed, acceleration * Time.deltaTime);
-        }
-    }
-
-    void ControlDrag()
-    {
-        if (_fpGrounding.isGrounded)
-        {
-            _rigidbody.drag = groundDrag;
-        }
-        else
-        {
-            _rigidbody.drag = airDrag;
-        }
-    }
-
-    void MovePlayer()
-    {
-        if (_fpGrounding.isGrounded)
-        {
-            _rigidbody.AddForce(_moveDirection.normalized * _moveSpeed * groundMultiplier, ForceMode.Acceleration);
-        }
-        else if (!_fpGrounding.isGrounded)
-        {
-            _rigidbody.AddForce(_moveDirection.normalized * _moveSpeed * groundMultiplier * airMultiplier, ForceMode.Acceleration);
-        }
-    }
-    
-    private void FixedUpdate()
-    {
-        MovePlayer();
-    }
-    
     private void Update()
     {
-        ControlDrag();
-        ControlSpeed();
-
-        forwardOrientation = Vector3.ProjectOnPlane(cameraOrientation.forward, Vector3.up).normalized;
-        rightOrientation = Vector3.ProjectOnPlane(cameraOrientation.right, Vector3.up).normalized;
-        _inputDirection = forwardOrientation * Input.GetAxisRaw(verticalAxis) + rightOrientation * Input.GetAxisRaw(horizontalAxis);
-        _moveDirection = Vector3.ProjectOnPlane(_inputDirection, _fpGrounding.groundNormal);
-        
-        if (_moveDirection.magnitude > 1)
+        if (!_fpGrounding.isGrounded && !_fpGrounding.isWalled)
         {
-            _moveDirection.Normalize();
+            _fpGravity.SetAirGravity();
+        }
+        else if (_fpGrounding.isGrounded)
+        {
+            _fpGravity.SetDefaultGravity();
         }
     }
-    
+
+    private void FixedUpdate()
+    {
+        horizontalVelocity = new Vector3(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z);
+        
+        // Projected camera direction
+        rightOrientation = Vector3.ProjectOnPlane(cameraTransform.right, Vector3.up).normalized;
+        forwardOrientation = Vector3.ProjectOnPlane(cameraTransform.forward, Vector3.up).normalized;
+        
+        // Calculating input vector
+        Vector3 inputRight = rightOrientation * Input.GetAxisRaw("Horizontal");
+        Vector3 inputForward = forwardOrientation * Input.GetAxisRaw("Vertical");
+        inputDirection = inputRight + inputForward;
+        inputDirection.y = 0;
+        
+        if (inputDirection.magnitude > 1f)
+        {
+            inputDirection.Normalize();
+        }
+
+        velDotInput = Vector3.Dot(inputDirection, horizontalVelocity.normalized);
+        float orientationDotInput = Vector3.Dot(inputDirection, forwardOrientation);
+
+        float speedMultiplier = 1;
+        if (orientationDotInput < -0.2f)
+        {
+            speedMultiplier = backSpeedMultiplier;
+        }
+        else if (orientationDotInput > 0.2f)
+        {
+            speedMultiplier = orientationDotInput;
+        }
+        else
+        {
+            speedMultiplier = sideSpeedMultiplier;
+        }
+
+        if (_fpGrounding.isGrounded)
+        {
+            float accel = inputDirection.magnitude <= 0 ? groundDeacceleration : groundAcceleration;
+            float accelFinal = accel * accelFactorGround.Evaluate(velDotInput);
+            moveDirection = Vector3.MoveTowards(moveDirection, inputDirection, accelFinal * Time.fixedDeltaTime);
+            _rigidbody.velocity += moveDirection * groundSpeed * speedMultiplier;
+        }
+        else
+        {
+            float accel = inputDirection.magnitude <= 0 ? airDeacceleration : airAcceleration;
+            float accelFinal = accel * accelFactorAir.Evaluate(velDotInput);
+            moveDirection = Vector3.MoveTowards(moveDirection, inputDirection, accelFinal * Time.fixedDeltaTime);
+            _rigidbody.velocity += moveDirection * airSpeed * speedMultiplier;
+        }
+    }
+
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _fpGrounding = GetComponent<FPGrounding>();
-        
-        _rigidbody.freezeRotation = true;
+        _fpGravity = GetComponent<FPGravity>();
+    }
+
+    private void OnGUI()
+    {
+        Vector2 labelSize = new Vector2(200f, 200f);
+        Vector2 labelPos = new Vector2(10f, 10f);
+        Vector2 offset = new Vector2(0f, 15f);
+        GUI.Label(new Rect(labelPos + (offset * 1), labelSize), $"<b>LOCOMOTION</b>");
+        GUI.Label(new Rect(labelPos + (offset * 2), labelSize), $"Input: {inputDirection}");
+        GUI.Label(new Rect(labelPos + (offset * 3), labelSize), $"Velocity: {_rigidbody.velocity}");
+        GUI.Label(new Rect(labelPos + (offset * 4), labelSize), $"Speed: {_rigidbody.velocity.magnitude}");
+        GUI.Label(new Rect(labelPos + (offset * 5), labelSize), $"Vel Dot: {velDotInput}");
+        GUI.Label(new Rect(labelPos + (offset * 6), labelSize), $"Accel Factor: {accelFactorGround.Evaluate(velDotInput)}");
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(transform.position, 1f);
-        
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, _moveDirection);
-
-        Gizmos.color = Color.white;
-        Gizmos.DrawRay(transform.position, Vector3.ProjectOnPlane(_inputDirection, Vector3.up));
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(transform.position, forwardOrientation);
-        Gizmos.DrawRay(transform.position, rightOrientation);
+        // Gizmos.color = Color.white;
+        // Gizmos.DrawWireSphere(transform.position, 1f);
+        //
+        // Gizmos.color = Color.yellow;
+        // Gizmos.DrawLine(transform.position, transform.position + horizontalVelocity.normalized);
+        //
+        // Gizmos.color = Color.red;
+        // Gizmos.DrawSphere(transform.position + inputDirection, .05f);
+        //
+        // Gizmos.color = Color.red;
+        // Gizmos.DrawLine(transform.position, transform.position + moveDirection);
     }
 }
