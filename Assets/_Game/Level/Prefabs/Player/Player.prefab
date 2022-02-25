@@ -373,6 +373,7 @@ MonoBehaviour:
   wallMask:
     serializedVersion: 2
     m_Bits: 64
+  wallcastOffset: -0.5
   rayLengthRight: 1
   rayLengthFront: 1
   isWalled: 0

@@ -18,6 +18,7 @@ public class FPGrounding : MonoBehaviour
 
     [Header("Walling")]
     [SerializeField] private LayerMask wallMask;
+    [SerializeField] private float wallcastOffset;
     [SerializeField] private float rayLengthRight;
     [SerializeField] private float rayLengthFront;
     [NonSerialized] public Vector3 wallNormal;
@@ -32,22 +33,23 @@ public class FPGrounding : MonoBehaviour
 
     private void WallCasting()
     {
-        if (Physics.Raycast(transform.position, -_fpLocomotion.rightOrientation, out _wallHitLeft, rayLengthRight, wallMask))
+        Vector3 offsetVec = transform.position + wallcastOffset * Vector3.down;
+        if (Physics.Raycast(offsetVec, -_fpLocomotion.rightOrientation, out _wallHitLeft, rayLengthRight, wallMask))
         {
             isWalled = true;
             wallNormal = _wallHitLeft.normal;
         }
-        else if (Physics.Raycast(transform.position, _fpLocomotion.rightOrientation, out _wallHitRight, rayLengthRight, wallMask))
+        else if (Physics.Raycast(offsetVec, _fpLocomotion.rightOrientation, out _wallHitRight, rayLengthRight, wallMask))
         {
             isWalled = true;
             wallNormal = _wallHitRight.normal;
         }
-        else if (Physics.Raycast(transform.position, -_fpLocomotion.forwardOrientation, out _wallHitBack, rayLengthFront, wallMask))
+        else if (Physics.Raycast(offsetVec, -_fpLocomotion.forwardOrientation, out _wallHitBack, rayLengthFront, wallMask))
         {          
             isWalled = true;
             wallNormal = _wallHitBack.normal;
         }
-        else if (Physics.Raycast(transform.position, _fpLocomotion.forwardOrientation, out _wallHitFront, rayLengthFront, wallMask))
+        else if (Physics.Raycast(offsetVec, _fpLocomotion.forwardOrientation, out _wallHitFront, rayLengthFront, wallMask))
         {          
             isWalled = true;
             wallNormal = _wallHitFront.normal;
@@ -123,10 +125,12 @@ public class FPGrounding : MonoBehaviour
         _fpLocomotion = GetComponent<FPLocomotion>();
         #region Walling
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + (_fpLocomotion.rightOrientation * rayLengthRight));
-        Gizmos.DrawLine(transform.position, transform.position + (-_fpLocomotion.rightOrientation * rayLengthRight));
-        Gizmos.DrawLine(transform.position, transform.position + (-_fpLocomotion.forwardOrientation * rayLengthFront));
-        Gizmos.DrawLine(transform.position, transform.position + (_fpLocomotion.forwardOrientation * rayLengthFront));
+        Vector3 offsetVec = transform.position + wallcastOffset * Vector3.up;
+        Gizmos.DrawSphere(offsetVec, .1f);
+        Gizmos.DrawLine(offsetVec, offsetVec + (_fpLocomotion.rightOrientation * rayLengthRight));
+        Gizmos.DrawLine(offsetVec, offsetVec + (-_fpLocomotion.rightOrientation * rayLengthRight));
+        Gizmos.DrawLine(offsetVec, offsetVec + (-_fpLocomotion.forwardOrientation * rayLengthFront));
+        Gizmos.DrawLine(offsetVec, offsetVec + (_fpLocomotion.forwardOrientation * rayLengthFront));
         #endregion
     }
 }
