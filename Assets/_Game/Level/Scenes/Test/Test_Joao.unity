@@ -602,8 +602,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5157dfdd1b0bd1e4e8a7a9d1fedb4858, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  glitchChance: 0.1
-  flickerChance: 0.8
+  glitchChance: 0.3
+  flickerChance: 0.5
   glitchIntensity:
     Max: 0.008
     Min: 0.02
@@ -611,11 +611,11 @@ MonoBehaviour:
     Max: 0.3
     Min: 1
   blendIntensity:
-    Max: 0
-    Min: 0
+    Max: 0.2
+    Min: 0.3
   timer:
-    Max: 0.5
-    Min: 1
+    Max: 0.2
+    Min: 0.8
 --- !u!1 &1006351425
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,11 +1313,11 @@ MonoBehaviour:
     Max: 0.3
     Min: 1
   blendIntensity:
-    Max: 0.15
-    Min: 0.2
+    Max: 0.2
+    Min: 0.3
   timer:
-    Max: 0.5
-    Min: 1
+    Max: 0.2
+    Min: 0.8
 --- !u!1 &1886852408
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,15 +1617,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93e6ba102538eab44aa8450efc621e1f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.0498714
+      value: -3.44
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93e6ba102538eab44aa8450efc621e1f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.19
+      value: 2.51
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93e6ba102538eab44aa8450efc621e1f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 15.88
+      value: 37.42
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93e6ba102538eab44aa8450efc621e1f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1682,8 +1682,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5157dfdd1b0bd1e4e8a7a9d1fedb4858, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  glitchChance: 0.1
-  flickerChance: 0.8
+  glitchChance: 0.3
+  flickerChance: 0.5
   glitchIntensity:
     Max: 0.008
     Min: 0.02
@@ -1691,11 +1691,11 @@ MonoBehaviour:
     Max: 0.3
     Min: 1
   blendIntensity:
-    Max: 0
-    Min: 0
+    Max: 0.2
+    Min: 0.3
   timer:
-    Max: 0.5
-    Min: 1
+    Max: 0.2
+    Min: 0.8
 --- !u!1001 &2313226011438491988
 PrefabInstance:
   m_ObjectHideFlags: 0
