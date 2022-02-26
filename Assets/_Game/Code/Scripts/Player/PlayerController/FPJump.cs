@@ -10,12 +10,12 @@ public class FPJump : MonoBehaviour
     [SerializeField] private Vector2 _wallJumpMultiplier;
     
     [Header("Buffers")]
-    [SerializeField] private float coyoteTimer;
+    [SerializeField] private float groundCoyote;
 
-    private float _currentCoyoteTime;
+    private float _currGroundCoyote;
     private float _jumpTimeCounter;
     private bool _isJumping;
-    private bool _canJump;
+    private bool _canGroundJump;
 
     private Rigidbody _rigidbody;
     private FPGrounding _fpGrounding;
@@ -25,15 +25,16 @@ public class FPJump : MonoBehaviour
 
     private void CoyoteTime()
     {
+        // ground coyote
         if (_fpGrounding.isGrounded)
         {
-            _currentCoyoteTime = coyoteTimer;
+            _currGroundCoyote = groundCoyote;
         }
         else
         {
-            _currentCoyoteTime -= Time.deltaTime;
+            _currGroundCoyote -= Time.deltaTime;
         }
-        _canJump = _currentCoyoteTime > 0;
+        _canGroundJump = _currGroundCoyote > 0;
     }
     
     private void Update()
@@ -42,13 +43,14 @@ public class FPJump : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (_canJump)
+            if (_canGroundJump)
             {
                 _groundJump = true;
                 _isJumping = true;
                 _jumpTimeCounter = jumpTime;
                 _rigidbody.velocity += Vector3.up * _jumpForce * Time.fixedDeltaTime;
-                _currentCoyoteTime = 0f;
+                
+                _currGroundCoyote = 0f;
             }
             else if (_fpGrounding.isWalled)
             {
@@ -61,7 +63,6 @@ public class FPJump : MonoBehaviour
                     direction.Normalize();
                 }
                 _rigidbody.velocity += direction * _jumpForceWall * Time.fixedDeltaTime;
-                _currentCoyoteTime = 0f;
             }
         }
         
@@ -74,7 +75,7 @@ public class FPJump : MonoBehaviour
                     _rigidbody.velocity += Vector3.up * _jumpForce * Time.deltaTime;
                 }
                 _jumpTimeCounter -= Time.deltaTime;
-                _currentCoyoteTime = 0f;
+                _currGroundCoyote = 0f;
             }
             else if (_wallJump)
             {
@@ -88,7 +89,6 @@ public class FPJump : MonoBehaviour
                     _rigidbody.velocity += direction * _jumpForceWall * Time.deltaTime;
                 }
                 _jumpTimeCounter -= Time.deltaTime;
-                _currentCoyoteTime = 0f;
             }
             else
             {
@@ -118,6 +118,6 @@ public class FPJump : MonoBehaviour
     {
         _wallJumpMultiplier.x = Mathf.Clamp01(_wallJumpMultiplier.x);
         _wallJumpMultiplier.y = Mathf.Clamp01(_wallJumpMultiplier.y);
-        coyoteTimer = Mathf.Max(0f, coyoteTimer);
+        groundCoyote = Mathf.Max(0f, groundCoyote);
     }
 }

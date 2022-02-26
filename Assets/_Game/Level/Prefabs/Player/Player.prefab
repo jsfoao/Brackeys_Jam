@@ -365,7 +365,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  rideRadius: 0.5
+  rideRadius: 0.6
   rideHeight: 1.4
   rideSpringStrength: 1000
   rideSpringDamper: 25
@@ -374,8 +374,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   wallcastOffset: -0.5
-  rayLengthRight: 1
-  rayLengthFront: 1
+  rayLengthRight: 1.2
+  rayLengthFront: 1.2
   isWalled: 0
 --- !u!114 &2313226012134789633
 MonoBehaviour:
@@ -393,7 +393,8 @@ MonoBehaviour:
   _jumpForceWall: 250
   jumpTime: 0.15
   _wallJumpMultiplier: {x: 1, y: 1}
-  coyoteTimer: 0.2
+  groundCoyote: 0.2
+  wallCoyote: 1
 --- !u!114 &2313226012134789634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,7 +426,6 @@ MonoBehaviour:
   groundGravity: -120
   wallGravity: -20
   airGravity: -110
-  gravityForce: 0
 --- !u!114 &2313226012134789644
 MonoBehaviour:
   m_ObjectHideFlags: 0
