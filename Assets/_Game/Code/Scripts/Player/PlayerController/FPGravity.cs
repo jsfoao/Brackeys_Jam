@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -6,7 +7,7 @@ public class FPGravity : MonoBehaviour
     [SerializeField] private float groundGravity;
     [SerializeField] private float wallGravity;
     [SerializeField] private float airGravity;
-    public float gravityForce;
+    [NonSerialized] public float gravityForce;
 
     private Rigidbody _rigidbody;
 

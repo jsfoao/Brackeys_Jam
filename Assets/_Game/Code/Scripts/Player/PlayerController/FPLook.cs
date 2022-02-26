@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class FPLook : MonoBehaviour 
 {
-    private Transform _camTransform;
-    
     public float Sensitivity
     {
         get => sensitivity;
@@ -20,11 +18,16 @@ public class FPLook : MonoBehaviour
     [SerializeField] public float maxTiltAngle;
     [SerializeField] private float tiltSpeed;
     
+    
     private float currentTilt;
     
     Vector2 _rotation = Vector2.zero;
     const string xAxis = "Mouse X";
     const string yAxis = "Mouse Y";
+    
+    private Transform _camTransform;
+
+    private float _startTimer;
 
     private void LookRotation()
     {
@@ -45,6 +48,12 @@ public class FPLook : MonoBehaviour
 
     void Update()
     {
+        if (_startTimer > 0)
+        {      
+            _startTimer -= Time.deltaTime;
+            return;
+        }
+        
         LookRotation();
         TiltRotation();
         currentTilt = Mathf.Lerp(currentTilt, tiltAngle, tiltSpeed * Time.deltaTime);
@@ -54,6 +63,7 @@ public class FPLook : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        _startTimer = 0.5f;
         _camTransform = GetComponentInChildren<Camera>().transform;
     }
     

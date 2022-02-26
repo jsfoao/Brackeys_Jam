@@ -1,8 +1,5 @@
 using System;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 public class FPLocomotion : MonoBehaviour
 {
@@ -109,6 +106,7 @@ public class FPLocomotion : MonoBehaviour
         _fpGravity = GetComponent<FPGravity>();
     }
 
+    #if UNITY_EDITOR
     private void OnGUI()
     {
         Vector2 labelSize = new Vector2(200f, 200f);
@@ -121,6 +119,7 @@ public class FPLocomotion : MonoBehaviour
         GUI.Label(new Rect(labelPos + (offset * 5), labelSize), $"Vel Dot: {velDotInput}");
         GUI.Label(new Rect(labelPos + (offset * 6), labelSize), $"Accel Factor: {accelFactorGround.Evaluate(velDotInput)}");
     }
+    #endif
 
     private void OnDrawGizmos()
     {
