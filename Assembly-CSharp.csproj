@@ -81,6 +81,9 @@
      <Compile Include="Assets\_Game\Code\Scripts\World\ChangeMaterial.cs" />
      <Compile Include="Assets\_Game\Code\Scripts\World\GlitchControl.cs" />
      <Compile Include="Assets\_Game\Code\Scripts\World\CreateArray.cs" />
+     <Compile Include="Assets\_Game\Code\Scripts\World\ChunkInfo.cs" />
+     <Compile Include="Assets\_Game\Code\Scripts\Player\PlayerDead.cs" />
+     <Compile Include="Assets\_Game\Code\Scripts\Manager\RespawnManager.cs" />
      <None Include="Assets\_Game\Code\Shaders\Hologram.shader" />
      <None Include="Assets\_Game\Code\Shaders\UniformOutlineEdit.shader" />
      <None Include="Assets\_Game\Code\Shaders\GlitchEffectShader.shader" />

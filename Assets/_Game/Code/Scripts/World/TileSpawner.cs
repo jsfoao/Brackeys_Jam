@@ -34,23 +34,26 @@ public class TileSpawner : MonoBehaviour
         spawnedChunk = Instantiate(list[Random.Range(0, list.Count)], transform.position, Quaternion.identity);
         _renderer = spawnedChunk.GetComponentInChildren<Renderer>();
         _collider = spawnedChunk.GetComponentInChildren<Collider>();
-        if (isReal)
-        {
-            _renderer.material = regularMaterial;
-        }
-        else
-        {
-            _renderer.material = glitchedMaterial;
-            _collider.enabled = false;
-        }
-        
+        _collider.enabled = isReal;
+
     }
 
     void Update()
     {
-        if ((spawnGenerator.playerTile - spawnGenerator.mapLength) > row)
+        float distanceToPlayer = spawnGenerator.PlayerTile - row;
+        if (distanceToPlayer > spawnGenerator.mapLength)
         {
             Destroy(spawnedChunk);
+            Destroy(this);
+        }
+
+        if (distanceToPlayer >= -GameManager.Instance.controlledEntity.range && !isReal)
+        {
+            _renderer.material = glitchedMaterial;
+        }
+        else
+        {
+            _renderer.material = regularMaterial;
         }
     }
 }

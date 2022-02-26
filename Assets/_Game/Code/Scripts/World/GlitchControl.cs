@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 public class GlitchControl : MonoBehaviour
 {
-    [SerializeField] private bool active;
+    [SerializeField] public bool active;
     [SerializeField] Material hologramMaterial;
     [SerializeField, Range(0,1)] float glitchChance = 0.1f;
     [SerializeField, Range(0,1)] float flickerChance = 0.1f;

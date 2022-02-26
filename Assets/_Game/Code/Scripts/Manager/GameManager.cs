@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     [NonSerialized] public Entity controlledEntity;
+    public RespawnManager respawnManager;
     
     private void Awake()
     {
@@ -16,5 +17,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
+
+        respawnManager = GetComponent<RespawnManager>();
     }
 }

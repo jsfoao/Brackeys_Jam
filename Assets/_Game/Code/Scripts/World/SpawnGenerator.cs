@@ -1,54 +1,91 @@
 using System;
 using System.Collections.Generic;
-using TreeEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class SpawnGenerator : MonoBehaviour
 {
-    [SerializeField] private GameObject tileSpawn;
     [SerializeField] private Transform player;
+    [SerializeField] private Transform spawnStruct;
+    
+    
+    public List<TilePrefab> prefabs;
+    private List<GameObject> list;
+    public GameObject wallPrefab;
     
     public int mapLength;
     public int mapWidth;
-    private float tileDistanceX;
-    private float tileDistanceZ;
-    [SerializeField] private Transform chunk;
-    
-    [NonSerialized] public int playerTile = 0;
+    public float tileSizeX;
+    public float tileSizeZ;
 
-    private int mapForwardEdge;
-    private int realTile;
-    private int rowReals;
-    private GameObject tileSpawner;
+    [NonSerialized] public int PlayerTile = 0;
+
+    private int _mapForwardEdge;
+    private int _rowReals;
 
     public float realProb = 0.5f;
+    public float wallProb = 0.5f;
 
     void Start()
     {
-        mapForwardEdge = mapLength-1;
-        tileDistanceX = chunk.localScale.x;
-        tileDistanceZ = chunk.localScale.z;
+        list = new List<GameObject>();
+        foreach (var t in prefabs)
+        {
+            int i = 0;
+            while (i < t.weight)
+            {
+                list.Add(t.prefab);
+                i += 1;
+            }
+        }
+        foreach (var t in list)
+        {
+            t.transform.localScale = new Vector3(tileSizeX, t.transform.localScale.y, tileSizeZ);
+        }
 
+        var localScale = wallPrefab.transform.localScale;
+        localScale = new Vector3(localScale.x, localScale.y, tileSizeZ);
+        wallPrefab.transform.localScale = localScale;
+
+        spawnStruct.localScale = new Vector3(tileSizeX * mapWidth, spawnStruct.localScale.y, spawnStruct.localScale.z);
+        player.position = spawnStruct.GetChild(2).position;
+
+        _mapForwardEdge = mapLength-1;
+        
         for (int j = 0; j < mapLength; j++)
         {
-            rowReals = 0;
+            _rowReals = 0;
+            
+            // Tile Generation
             for (int i=0; i < mapWidth; i++)
             {
-                if (i == mapWidth-1 && rowReals == 0)
+                GameObject tile = Instantiate(list[Random.Range(0, list.Count)], new Vector3(tileSizeX*i, 0, (tileSizeZ/2)+tileSizeZ*j), Quaternion.identity);
+                tile.GetComponent<ChunkInfo>().row = j;
+                if (i == mapWidth-1 && _rowReals == 0)
                 {
-                    tileSpawner = Instantiate(tileSpawn, new Vector3(tileDistanceX*i, 0, tileDistanceZ*j), Quaternion.identity);
-                    tileSpawner.GetComponent<TileSpawner>().row = j;
-                    tileSpawner.GetComponent<TileSpawner>().isReal = true;
+                    tile.GetComponent<ChunkInfo>().isReal = true;
                 }
                 else
                 {
-                    tileSpawner = Instantiate(tileSpawn, new Vector3(tileDistanceX*i, 0, tileDistanceZ*j), Quaternion.identity);
-                    tileSpawner.GetComponent<TileSpawner>().row = j;
-                    if (Random.value > 0.5f)
+                    if (Random.value <= realProb)
                     {
-                        tileSpawner.GetComponent<TileSpawner>().isReal = true;
-                        rowReals += 1;
+                        tile.GetComponent<ChunkInfo>().isReal = true;
+                        _rowReals += 1;
+                    }
+                }
+            }
+
+            // Wall Generation
+            for (int i = 0; i < mapWidth + 1; i++)
+            {
+                if (Random.value <= wallProb)
+                {
+                    GameObject wall = Instantiate(wallPrefab, new Vector3((-tileSizeX/2)+(tileSizeX * i), 0, (tileSizeZ/2)+tileSizeZ * j),
+                        Quaternion.identity);
+                    wall.GetComponent<ChunkInfo>().row = j;
+                    if (Random.value <= realProb)
+                    {
+                        wall.GetComponent<ChunkInfo>().isReal = true;
                     }
                 }
             }
@@ -57,36 +94,59 @@ public class SpawnGenerator : MonoBehaviour
     
     void Update()
     {
-        playerTile = Mathf.FloorToInt((player.position.z + (tileDistanceZ / 2)) / tileDistanceZ);
-        if ((playerTile + mapLength) > mapForwardEdge)
+        PlayerTile = Mathf.FloorToInt((player.position.z + (tileSizeZ / 2)) / tileSizeZ);
+        if ((PlayerTile + mapLength) > _mapForwardEdge)
         {
-            mapForwardEdge += 1;
-            rowReals = 0;
+            _mapForwardEdge += 1;
+            _rowReals = 0;
+            
+            // Tile Generation
             for (int i=0; i < mapWidth; i++)
             {
-                if (i == mapWidth - 1 && rowReals == 0)
+                int rand = Random.Range(0, list.Count);
+                GameObject tile = Instantiate(list[rand], new Vector3(tileSizeX*i, 0, (tileSizeZ/2)+tileSizeZ*_mapForwardEdge), Quaternion.identity);
+                tile.GetComponent<ChunkInfo>().row = _mapForwardEdge;
+
+                if (i == mapWidth-1 && _rowReals == 0)
                 {
-                    tileSpawner = Instantiate(tileSpawn, new Vector3(tileDistanceX*i, 0, mapForwardEdge*tileDistanceZ), Quaternion.identity);
-                    tileSpawner.GetComponent<TileSpawner>().row = mapForwardEdge;
-                    tileSpawner.GetComponent<TileSpawner>().isReal = true;
+                    tile.GetComponent<ChunkInfo>().isReal = true;
                 }
                 else
                 {
-                    tileSpawner = Instantiate(tileSpawn, new Vector3(tileDistanceX*i, 0, mapForwardEdge*tileDistanceZ), Quaternion.identity);
-                    tileSpawner.GetComponent<TileSpawner>().row = mapForwardEdge;
                     if (Random.value <= realProb)
                     {
-                        tileSpawner.GetComponent<TileSpawner>().isReal = true;
-                        rowReals += 1;
+                        tile.GetComponent<ChunkInfo>().isReal = true;
+                        _rowReals += 1;
                     }
                 }
-                
+            }
+            
+            // Wall generation
+            for (int i = 0; i < mapWidth + 1; i++)
+            {
+                if (Random.value <= wallProb)
+                {
+                    GameObject wall = Instantiate(wallPrefab, new Vector3((-tileSizeX/2)+(tileSizeX * i), 0, (tileSizeZ/2)+tileSizeZ * _mapForwardEdge),
+                        Quaternion.identity);
+                    wall.GetComponent<ChunkInfo>().row = _mapForwardEdge;
+                    if (Random.value <= realProb)
+                    {
+                        wall.GetComponent<ChunkInfo>().isReal = true;
+                    }
+                }
             }
         }
     }
 
     private void OnGUI()
     {
-        GUI.Label(new Rect(10f, 10f, 200f, 200f), playerTile.ToString());
+        GUI.Label(new Rect(10f, 10f, 200f, 200f), PlayerTile.ToString());
+    }
+    
+    [Serializable]
+    public class TilePrefab
+    {
+        public GameObject prefab;
+        [SerializeField, Range(1, 5)] public int weight;
     }
 }
