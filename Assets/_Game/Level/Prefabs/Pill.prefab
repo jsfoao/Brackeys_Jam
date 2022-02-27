@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8735137271891184450}
   - component: {fileID: 8865638204616650129}
   - component: {fileID: 2868221010538117936}
+  - component: {fileID: 7625323399593170980}
   m_Layer: 0
   m_Name: Pill
   m_TagString: Untagged
@@ -81,3 +82,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7625323399593170980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2442697868111354128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f567000e46486db41a759a7d4ac4b37f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 2
+  awarenessGain: 5
