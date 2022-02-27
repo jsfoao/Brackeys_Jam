@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     [NonSerialized] public Entity controlledEntity;
-    public RespawnManager respawnManager;
+    [NonSerialized] public RespawnManager respawnManager;
     
     private void Awake()
     {
@@ -19,5 +19,16 @@ public class GameManager : MonoBehaviour
         }
 
         respawnManager = GetComponent<RespawnManager>();
+        SetResumeTimeScale();
+    }
+
+    public void SetPauseTimeScale()
+    {
+        Time.timeScale = 0f;
+    }
+
+    public void SetResumeTimeScale()
+    {
+        Time.timeScale = 1f;
     }
 }
