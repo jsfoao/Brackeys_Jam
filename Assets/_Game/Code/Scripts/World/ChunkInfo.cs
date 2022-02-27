@@ -26,7 +26,9 @@ public class ChunkInfo : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        if (spawnGenerator.PlayerTile + GameManager.Instance.controlledEntity.range >= row && !isReal)
+
+        int range = GameManager.Instance.controlledEntity.range;
+        if (row > spawnGenerator.PlayerTile - range && row < spawnGenerator.PlayerTile + range && !isReal)
         {
             _renderer.material = glitchedMaterial;
             _glitchControl.active = true;
