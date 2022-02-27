@@ -14,21 +14,33 @@ public class GlitchControl : MonoBehaviour
     [SerializeField] private Range<float> blendIntensity;
     [SerializeField] private Range<float> timer;
     [SerializeField] private float intensityMultiplier;
-    
 
+    private IEnumerator glitch;
     private MaterialPropertyBlock _mpb;
     private Renderer _renderer;
+
+    private bool _animating;
 
     private void Awake()
     {
         _mpb = new MaterialPropertyBlock();
         _renderer = GetComponent<Renderer>();
+        glitch = Glitch();
     }
 
-    IEnumerator Start()
+    private void Update()
     {
-        while (active)
+        if (active && !_animating)
         {
+            StartCoroutine(glitch);
+        }
+    }
+
+    IEnumerator Glitch()
+    {
+        while (true)
+        {
+            _animating = true;
             float glitchTest = Random.Range(0f, 1f);
             float flickerTest = Random.Range(0f, 1f);
             
@@ -64,6 +76,7 @@ public class GlitchControl : MonoBehaviour
             }
             yield return new WaitForSeconds(Random.Range(timer.Min, timer.Max));
             _renderer.SetPropertyBlock(_mpb);
+            _animating = false;
         }
     }
 }

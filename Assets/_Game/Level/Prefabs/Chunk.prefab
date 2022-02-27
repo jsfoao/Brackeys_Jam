@@ -69,7 +69,7 @@ MonoBehaviour:
   row: 0
   isReal: 0
   glitchedMaterial: {fileID: 2100000, guid: 3314c260585d2104197069525733a528, type: 2}
-  regularMaterial: {fileID: 2100000, guid: 5a75cdac9ff46144181ff2c6d5eccc43, type: 2}
+  regularMaterial: {fileID: 2100000, guid: cbf2bb75115b9f8418821e39af3541c4, type: 2}
 --- !u!1001 &2306020638410552721
 PrefabInstance:
   m_ObjectHideFlags: 0

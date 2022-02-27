@@ -59,6 +59,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chunk (1) Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 6811130661525882382, guid: 551ff172b83264d4180b049cb44f275d, type: 3}
+      propertyPath: regularMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: cbf2bb75115b9f8418821e39af3541c4, type: 2}
     - target: {fileID: 8698085550294504023, guid: 551ff172b83264d4180b049cb44f275d, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.458

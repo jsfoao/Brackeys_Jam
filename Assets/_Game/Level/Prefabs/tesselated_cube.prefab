@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5157dfdd1b0bd1e4e8a7a9d1fedb4858, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   hologramMaterial: {fileID: 2100000, guid: 3314c260585d2104197069525733a528, type: 2}
   glitchChance: 0.3
   flickerChance: 0.5
@@ -124,3 +124,4 @@ MonoBehaviour:
   timer:
     Max: 0.2
     Min: 0.8
+  intensityMultiplier: 0.3
