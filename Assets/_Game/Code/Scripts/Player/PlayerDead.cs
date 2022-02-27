@@ -1,16 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerDead : MonoBehaviour
 {
     [SerializeField] private float _deadHeight;
+    public UnityEvent OnDeath;
     
     void Update()
     {
         if (transform.position.y < _deadHeight)
         {
-            GameManager.Instance.respawnManager.Respawn();
+            OnDeath.Invoke();
         }
     }
 }

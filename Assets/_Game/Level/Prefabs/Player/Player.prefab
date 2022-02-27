@@ -395,7 +395,6 @@ MonoBehaviour:
   jumpTime: 0.15
   _wallJumpMultiplier: {x: 1, y: 1}
   groundCoyote: 0.2
-  wallCoyote: 1
 --- !u!114 &2313226012134789634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,3 +451,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _deadHeight: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: SceneSwapper, Assembly-CSharp
+        m_MethodName: SwapScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Test_Pedro
+          m_BoolArgument: 0
+        m_CallState: 2

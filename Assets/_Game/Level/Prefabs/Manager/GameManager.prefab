@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 7832353460522205733}
   - component: {fileID: 7832353460522205734}
   - component: {fileID: 4015981910606140044}
+  - component: {fileID: 3520510018810516989}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -89,3 +90,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnPos: {fileID: 6778942703820488772}
+--- !u!114 &3520510018810516989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7832353460522205732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e1fcd73257d974d84e51cf50f66225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

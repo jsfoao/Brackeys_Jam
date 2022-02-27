@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -186,6 +186,10 @@ PrefabInstance:
       propertyPath: _deadHeight
       value: -10
       objectReference: {fileID: 0}
+    - target: {fileID: 2705784473206177008, guid: 3d6a257caec25c84bb5e339920064340, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 481088146}
     - target: {fileID: 3470912368641852968, guid: 3d6a257caec25c84bb5e339920064340, type: 3}
       propertyPath: range
       value: 10
@@ -253,6 +257,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 921cb1abe04341e459552c99cfc99a62, type: 3}
+--- !u!114 &481088146 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3520510018810516989, guid: 0f0fe6ab4465183468bac35df5be510a, type: 3}
+  m_PrefabInstance: {fileID: 1254931871}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e1fcd73257d974d84e51cf50f66225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &796916237
 GameObject:
   m_ObjectHideFlags: 0
