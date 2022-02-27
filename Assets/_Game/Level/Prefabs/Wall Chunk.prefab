@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 4074054423502680750}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -155.07, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 6, z: 6}
+  m_LocalScale: {x: 0.5, y: 6, z: 6}
   m_Children:
   - {fileID: 3070783616721124030}
   m_Father: {fileID: 0}
@@ -68,6 +68,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   row: 0
   isReal: 0
+  hasPill: 0
+  pill: {fileID: 0}
   glitchedMaterial: {fileID: 2100000, guid: 3314c260585d2104197069525733a528, type: 2}
   regularMaterial: {fileID: 2100000, guid: cbf2bb75115b9f8418821e39af3541c4, type: 2}
 --- !u!1001 &8226091190952222072

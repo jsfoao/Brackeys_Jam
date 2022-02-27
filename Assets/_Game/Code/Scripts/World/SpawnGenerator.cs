@@ -7,7 +7,8 @@ public class SpawnGenerator : MonoBehaviour
 {
     [SerializeField] private Transform player;
     [SerializeField] private Transform spawnStruct;
-    
+    public Transform behindPlane;
+    public Transform aheadPlane;
     
     public List<TilePrefab> prefabs;
     private List<GameObject> list;
@@ -21,13 +22,18 @@ public class SpawnGenerator : MonoBehaviour
     [NonSerialized] public int PlayerTile = 0;
 
     private int _mapForwardEdge;
-    private int _rowReals;
 
     public float realProb = 0.5f;
     public float wallProb = 0.5f;
+    public int pillDistance;
 
     void Start()
     {
+        if (GameManager.Instance.spawnGenerator == null)
+        {
+            GameManager.Instance.spawnGenerator = this;
+        }
+        
         list = new List<GameObject>();
         foreach (var t in prefabs)
         {
@@ -52,16 +58,28 @@ public class SpawnGenerator : MonoBehaviour
 
         _mapForwardEdge = mapLength;
         
+        // Generate mapLength rows
         for (int j = 0; j < mapLength; j++)
         {
-            _rowReals = 0;
+            int rowReals = 0;
+            
+            int pillTile = 0;
+            bool rowHasPill = (j + 1) % pillDistance == 0;
+            if (rowHasPill)
+            {
+                pillTile = Random.Range(0, mapWidth);
+            }
             
             // Tile Generation
             for (int i=0; i < mapWidth; i++)
             {
                 GameObject tile = Instantiate(list[Random.Range(0, list.Count)], new Vector3(tileSizeX*i, 0, (tileSizeZ/2)+tileSizeZ*j), Quaternion.identity);
                 tile.GetComponent<ChunkInfo>().row = j+1;
-                if (i == mapWidth-1 && _rowReals == 0)
+                if (rowHasPill && i == pillTile)
+                {
+                    tile.GetComponent<ChunkInfo>().hasPill = true;
+                }
+                if (i == mapWidth-1 && rowReals == 0)
                 {
                     tile.GetComponent<ChunkInfo>().isReal = true;
                 }
@@ -70,7 +88,7 @@ public class SpawnGenerator : MonoBehaviour
                     if (Random.value <= realProb)
                     {
                         tile.GetComponent<ChunkInfo>().isReal = true;
-                        _rowReals += 1;
+                        rowReals += 1;
                     }
                 }
             }
@@ -95,10 +113,24 @@ public class SpawnGenerator : MonoBehaviour
     void Update()
     {
         PlayerTile = Mathf.CeilToInt(player.position.z / tileSizeZ);
+        
+        // Move awareness planes
+        float awarenessTiles = GameManager.Instance.controlledEntity.awareness * tileSizeZ; // Translate awareness into number of tiles
+        aheadPlane.position = new Vector3(aheadPlane.position.x, aheadPlane.position.y, player.position.z + awarenessTiles);
+        behindPlane.position = new Vector3(behindPlane.position.x, behindPlane.position.y, player.position.z - awarenessTiles);
+        
+        // Generate new row
         if ((PlayerTile + mapLength) > _mapForwardEdge)
         {
             _mapForwardEdge += 1;
-            _rowReals = 0;
+            int rowReals = 0;
+            
+            int pillTile = 0;
+            bool rowHasPill = _mapForwardEdge % pillDistance == 0;
+            if (rowHasPill)
+            {
+                pillTile = Random.Range(0, mapWidth);
+            }
             
             // Tile Generation
             for (int i=0; i < mapWidth; i++)
@@ -106,8 +138,11 @@ public class SpawnGenerator : MonoBehaviour
                 int rand = Random.Range(0, list.Count);
                 GameObject tile = Instantiate(list[rand], new Vector3(tileSizeX*i, 0, (tileSizeZ/2)+tileSizeZ*(_mapForwardEdge-1)), Quaternion.identity);
                 tile.GetComponent<ChunkInfo>().row = _mapForwardEdge;
-
-                if (i == mapWidth-1 && _rowReals == 0)
+                if (rowHasPill && i == pillTile)
+                {
+                    tile.GetComponent<ChunkInfo>().hasPill = true;
+                }
+                if (i == mapWidth-1 && rowReals == 0)
                 {
                     tile.GetComponent<ChunkInfo>().isReal = true;
                 }
@@ -116,7 +151,7 @@ public class SpawnGenerator : MonoBehaviour
                     if (Random.value <= realProb)
                     {
                         tile.GetComponent<ChunkInfo>().isReal = true;
-                        _rowReals += 1;
+                        rowReals += 1;
                     }
                 }
             }

@@ -68,6 +68,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   row: 0
   isReal: 0
+  hasPill: 0
+  pill: {fileID: 8735137271891184450, guid: ce864549df7bab94982f861728ce972b, type: 3}
   glitchedMaterial: {fileID: 2100000, guid: 3314c260585d2104197069525733a528, type: 2}
   regularMaterial: {fileID: 2100000, guid: cbf2bb75115b9f8418821e39af3541c4, type: 2}
 --- !u!1001 &2306020638410552721

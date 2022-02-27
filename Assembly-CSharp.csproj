@@ -59,7 +59,6 @@
      <Compile Include="Assets\_Game\Code\Scripts\Player\PlayerController\FPLocomotion.cs" />
      <Compile Include="Assets\_Game\Code\Scripts\Player\PlayerController\FPJump.cs" />
      <Compile Include="Assets\_Game\Code\Scripts\World\DrawWireframe.cs" />
-     <Compile Include="Assets\_Game\Code\Scripts\Manager\RespawnManager.cs" />
      <Compile Include="Assets\_Game\Code\Scripts\World\ChunkInfo.cs" />
      <Compile Include="Assets\_Game\Code\Scripts\Player\PlayerGrounding.cs" />
      <Compile Include="Assets\_Game\Code\Scripts\Manager\SceneSwapper.cs" />
@@ -82,7 +81,6 @@
      <Compile Include="Assets\_Game\Code\Scripts\Player\PlayerController\FPWallLocomotion.cs" />
      <Compile Include="Assets\_Game\Code\Scripts\World\SpawnGenerator.cs" />
      <Compile Include="Assets\_Game\Code\Scripts\World\ChangeMaterial.cs" />
-     <Compile Include="Assets\_Game\Code\Scripts\World\TileSpawner.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\_Game\Code\Shaders\Hologram.shader" />

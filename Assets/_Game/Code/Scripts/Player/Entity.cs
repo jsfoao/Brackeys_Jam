@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    [NonSerialized] public int range;
-    private float awareness = 100;
+    [SerializeField] private float awarenessMin = 1.5f;
+    [SerializeField] private float awarenessMax = 10f;
+    [NonSerialized] public float awareness;
     public float awarenessDrain;
     
     private void Start()
@@ -14,13 +15,14 @@ public class Entity : MonoBehaviour
         {
             GameManager.Instance.controlledEntity = this;
         }
+
+        awareness = awarenessMax;
     }
 
     private void Update()
     {
         awareness -= Time.deltaTime * awarenessDrain;
-        awareness = Mathf.Clamp(awareness, 0, 100);
-        range = Mathf.CeilToInt(awareness / 10);
+        awareness = Mathf.Clamp(awareness, awarenessMin, awarenessMax);
     }
     
     #if UNITY_EDITOR
@@ -28,7 +30,6 @@ public class Entity : MonoBehaviour
     {
         GUI.Label(new Rect(10f, 200f, 200f, 200f), $"ENTITY");
         GUI.Label(new Rect(10f, 220f, 200f, 200f), $"Awareness {awareness}");
-        GUI.Label(new Rect(10f, 240f, 200f, 200f), $"Range {range}");
     }
     #endif
 }

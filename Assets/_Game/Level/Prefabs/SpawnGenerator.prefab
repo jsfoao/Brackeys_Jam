@@ -45,6 +45,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   spawnStruct: {fileID: 0}
+  behindPlane: {fileID: 0}
+  aheadPlane: {fileID: 0}
   prefabs:
   - prefab: {fileID: 1746107374924168479, guid: a60ced0a22410614dbc0277ecafb3738, type: 3}
     weight: 1
@@ -65,3 +67,4 @@ MonoBehaviour:
   tileSizeZ: 6
   realProb: 0.8
   wallProb: 0.5
+  pillDistance: 10
