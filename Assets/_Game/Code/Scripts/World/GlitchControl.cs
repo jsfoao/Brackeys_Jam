@@ -13,6 +13,8 @@ public class GlitchControl : MonoBehaviour
     [SerializeField] Range<float> glowIntensity;
     [SerializeField] private Range<float> blendIntensity;
     [SerializeField] private Range<float> timer;
+    [SerializeField] private float intensityMultiplier;
+    
 
     private MaterialPropertyBlock _mpb;
     private Renderer _renderer;
@@ -34,7 +36,7 @@ public class GlitchControl : MonoBehaviour
             {
                 float originalGlowIntensity = _mpb.GetFloat("_GlowIntensity");
                 float originalBlend = _mpb.GetFloat("_GlitchBlend");
-                _mpb.SetFloat("_GlitchIntensity", Random.Range(glitchIntensity.Min, glitchIntensity.Max));
+                _mpb.SetFloat("_GlitchIntensity", Random.Range(glitchIntensity.Min, glitchIntensity.Max) * intensityMultiplier);
                 _mpb.SetFloat("_GlowIntensity", Random.Range(glowIntensity.Min, glowIntensity.Max));
                 _renderer.SetPropertyBlock(_mpb);
 
