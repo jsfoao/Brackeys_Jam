@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     [NonSerialized] public Entity controlledEntity;
-    public SpawnGenerator spawnGenerator;
+    [NonSerialized] public SpawnGenerator spawnGenerator;
     
     private void Awake()
     {
@@ -17,5 +17,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
+
+        Time.timeScale = 1f;
+        spawnGenerator = FindObjectOfType<SpawnGenerator>();
     }
 }

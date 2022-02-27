@@ -5,7 +5,7 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     [SerializeField] private float awarenessMin = 1.5f;
-    [SerializeField] private float awarenessMax = 10f;
+    [SerializeField] public float awarenessMax = 10f;
     [NonSerialized] public float awareness;
     public float awarenessDrain;
     
