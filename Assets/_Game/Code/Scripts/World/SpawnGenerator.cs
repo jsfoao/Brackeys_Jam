@@ -50,7 +50,7 @@ public class SpawnGenerator : MonoBehaviour
         spawnStruct.localScale = new Vector3(tileSizeX * mapWidth, spawnStruct.localScale.y, spawnStruct.localScale.z);
         player.position = spawnStruct.GetChild(2).position;
 
-        _mapForwardEdge = mapLength-1;
+        _mapForwardEdge = mapLength;
         
         for (int j = 0; j < mapLength; j++)
         {
@@ -60,7 +60,7 @@ public class SpawnGenerator : MonoBehaviour
             for (int i=0; i < mapWidth; i++)
             {
                 GameObject tile = Instantiate(list[Random.Range(0, list.Count)], new Vector3(tileSizeX*i, 0, (tileSizeZ/2)+tileSizeZ*j), Quaternion.identity);
-                tile.GetComponent<ChunkInfo>().row = j;
+                tile.GetComponent<ChunkInfo>().row = j+1;
                 if (i == mapWidth-1 && _rowReals == 0)
                 {
                     tile.GetComponent<ChunkInfo>().isReal = true;
@@ -82,7 +82,7 @@ public class SpawnGenerator : MonoBehaviour
                 {
                     GameObject wall = Instantiate(wallPrefab, new Vector3((-tileSizeX/2)+(tileSizeX * i), 0, (tileSizeZ/2)+tileSizeZ * j),
                         Quaternion.identity);
-                    wall.GetComponent<ChunkInfo>().row = j;
+                    wall.GetComponent<ChunkInfo>().row = j+1;
                     if (Random.value <= realProb)
                     {
                         wall.GetComponent<ChunkInfo>().isReal = true;
@@ -94,7 +94,7 @@ public class SpawnGenerator : MonoBehaviour
     
     void Update()
     {
-        PlayerTile = Mathf.FloorToInt((player.position.z + (tileSizeZ / 2)) / tileSizeZ);
+        PlayerTile = Mathf.CeilToInt(player.position.z / tileSizeZ);
         if ((PlayerTile + mapLength) > _mapForwardEdge)
         {
             _mapForwardEdge += 1;
@@ -104,7 +104,7 @@ public class SpawnGenerator : MonoBehaviour
             for (int i=0; i < mapWidth; i++)
             {
                 int rand = Random.Range(0, list.Count);
-                GameObject tile = Instantiate(list[rand], new Vector3(tileSizeX*i, 0, (tileSizeZ/2)+tileSizeZ*_mapForwardEdge), Quaternion.identity);
+                GameObject tile = Instantiate(list[rand], new Vector3(tileSizeX*i, 0, (tileSizeZ/2)+tileSizeZ*(_mapForwardEdge-1)), Quaternion.identity);
                 tile.GetComponent<ChunkInfo>().row = _mapForwardEdge;
 
                 if (i == mapWidth-1 && _rowReals == 0)
@@ -126,7 +126,7 @@ public class SpawnGenerator : MonoBehaviour
             {
                 if (Random.value <= wallProb)
                 {
-                    GameObject wall = Instantiate(wallPrefab, new Vector3((-tileSizeX/2)+(tileSizeX * i), 0, (tileSizeZ/2)+tileSizeZ * _mapForwardEdge),
+                    GameObject wall = Instantiate(wallPrefab, new Vector3((-tileSizeX/2)+(tileSizeX * i), 0, (tileSizeZ/2)+tileSizeZ * (_mapForwardEdge-1)),
                         Quaternion.identity);
                     wall.GetComponent<ChunkInfo>().row = _mapForwardEdge;
                     if (Random.value <= realProb)

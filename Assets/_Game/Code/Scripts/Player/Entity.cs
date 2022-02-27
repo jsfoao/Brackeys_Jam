@@ -1,9 +1,11 @@
+using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    public int range = 10;
-    public float awareness;
+    [NonSerialized] public int range;
+    private float awareness = 100;
     public float awarenessDrain;
     
     private void Start()
@@ -17,6 +19,8 @@ public class Entity : MonoBehaviour
     private void Update()
     {
         awareness -= Time.deltaTime * awarenessDrain;
+        awareness = Mathf.Clamp(awareness, 0, 100);
+        range = Mathf.CeilToInt(awareness / 10);
     }
     
     #if UNITY_EDITOR
