@@ -173,11 +173,6 @@ public class SpawnGenerator : MonoBehaviour
         }
     }
 
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(10f, 10f, 200f, 200f), PlayerTile.ToString());
-    }
-    
     [Serializable]
     public class TilePrefab
     {

@@ -1,11 +1,13 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIAwareness : MonoBehaviour
 {
     [SerializeField, Range(0,1)] public float slider;
 
     private RectTransform _rectTransform;
+    private Image _image;
     private void Update()
     {
         float awareness = GameManager.Instance.controlledEntity.awareness;

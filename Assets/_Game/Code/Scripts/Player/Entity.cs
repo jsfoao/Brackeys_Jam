@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    [SerializeField] private float awarenessMin = 1.5f;
+    [SerializeField] public float awarenessMin = 1.5f;
     [SerializeField] public float awarenessMax = 10f;
     [NonSerialized] public float awareness;
     public float awarenessDrain;
+    public int maxScore = 0;
     
     private void Start()
     {
@@ -24,12 +25,4 @@ public class Entity : MonoBehaviour
         awareness -= Time.deltaTime * awarenessDrain;
         awareness = Mathf.Clamp(awareness, awarenessMin, awarenessMax);
     }
-    
-    #if UNITY_EDITOR
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(10f, 200f, 200f, 200f), $"ENTITY");
-        GUI.Label(new Rect(10f, 220f, 200f, 200f), $"Awareness {awareness}");
-    }
-    #endif
 }

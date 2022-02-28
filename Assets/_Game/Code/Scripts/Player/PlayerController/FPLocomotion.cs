@@ -105,19 +105,6 @@ public class FPLocomotion : MonoBehaviour
         _fpGrounding = GetComponent<FPGrounding>();
         _fpGravity = GetComponent<FPGravity>();
     }
-    
-    private void OnGUI()
-    {
-        Vector2 labelSize = new Vector2(200f, 200f);
-        Vector2 labelPos = new Vector2(10f, 10f);
-        Vector2 offset = new Vector2(0f, 15f);
-        GUI.Label(new Rect(labelPos + (offset * 1), labelSize), $"<b>LOCOMOTION</b>");
-        GUI.Label(new Rect(labelPos + (offset * 2), labelSize), $"Input: {inputDirection}");
-        GUI.Label(new Rect(labelPos + (offset * 3), labelSize), $"Velocity: {_rigidbody.velocity}");
-        GUI.Label(new Rect(labelPos + (offset * 4), labelSize), $"Speed: {_rigidbody.velocity.magnitude}");
-        GUI.Label(new Rect(labelPos + (offset * 5), labelSize), $"Vel Dot: {velDotInput}");
-        GUI.Label(new Rect(labelPos + (offset * 6), labelSize), $"Accel Factor: {accelFactorGround.Evaluate(velDotInput)}");
-    }
 
     private void OnDrawGizmos()
     {

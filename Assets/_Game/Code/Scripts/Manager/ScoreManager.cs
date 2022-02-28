@@ -15,6 +15,10 @@ public class ScoreManager : MonoBehaviour
         {
             score = playerTile;
         }
+        if (score < 0)
+        {
+            score = 0;
+        }
         previousPlayerTile = playerTile;
     }
 

@@ -81,6 +81,15 @@
      <Compile Include="Assets\_Game\Code\Scripts\Player\PlayerController\FPWallLocomotion.cs" />
      <Compile Include="Assets\_Game\Code\Scripts\World\SpawnGenerator.cs" />
      <Compile Include="Assets\_Game\Code\Scripts\World\ChangeMaterial.cs" />
+     <Compile Include="Assets\_Game\Code\Scripts\UI\HUDController.cs" />
+     <Compile Include="Assets\_Game\Code\Scripts\Tools\PostFXController.cs" />
+     <Compile Include="Assets\_Game\Code\Scripts\Manager\InputManager.cs" />
+     <Compile Include="Assets\_Game\Code\Scripts\UI\UIAwareness.cs" />
+     <Compile Include="Assets\_Game\Code\Scripts\Manager\ScoreManager.cs" />
+     <Compile Include="Assets\_Game\Code\Scripts\UI\UISetText.cs" />
+     <Compile Include="Assets\_Game\Code\Scripts\UI\UIHide.cs" />
+     <Compile Include="Assets\_Game\Code\Scripts\World\Pickups\Pickup.cs" />
+     <Compile Include="Assets\_Game\Code\Scripts\UI\UISetHighscore.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\_Game\Code\Shaders\Hologram.shader" />
